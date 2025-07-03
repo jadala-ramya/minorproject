@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagram Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9e7e7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            font-style: italic;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #563249;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #3e3465;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #623eb6;
+            display: block;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Anagram Checker 🍀              
+        </h1>
+        <div class="input-group">
+            <label for="text1">First Text:</label>
+            <input type="text" id="text1" placeholder="Enter first word or phrase">
+        </div>
+        <div class="input-group">
+            <label for="text2">Second Text:</label>
+            <input type="text" id="text2" placeholder="Enter second word or phrase">
+        </div>
+        <button onclick="checkAnagram()">Check if Anagram</button>
+        <div id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function checkAnagram() {
+            // Get the input values
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            const resultDiv = document.getElementById('result');
+            
+            // Clear previous result
+            resultDiv.className = '';
+            resultDiv.style.display = 'none';
+            
+            // Check if both fields have text
+            if (!text1 || !text2) {
+                resultDiv.textContent = "Please enter text in both fields";
+                resultDiv.className = 'error';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            // Check if they are anagrams
+            if (areAnagrams(text1, text2)) {
+                resultDiv.textContent = `"${text1}" and "${text2}" are anagrams! 🫡`;
+                resultDiv.className = 'success';
+            } else {
+                resultDiv.textContent = `"${text1}" and "${text2}" are NOT anagrams 😵`;
+                resultDiv.className = 'error';
+            }
+            resultDiv.style.display = 'block';
+        }
+        
+        function areAnagrams(str1, str2) {
+            // Helper function to clean and sort a string
+            function prepareString(str) {
+                return str
+                    .toLowerCase()          // Convert to lowercase
+                    .replace(/[^a-z]/g, '') // Remove non-alphabet characters
+                    .split('')               // Convert to array of characters
+                    .sort()                  // Sort alphabetically
+                    .join('');               // Convert back to string
+            }
+            
+            // Prepare both strings
+            const cleanStr1 = prepareString(str1);
+            const cleanStr2 = prepareString(str2);
+            
+            // Compare the cleaned and sorted strings
+            return cleanStr1 === cleanStr2;
+        }
+    </script>
+</body>
+</html>
